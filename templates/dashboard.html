@@ -77,7 +77,10 @@
                                 <tr>
                                     <td>{{ item.site_name }}</td>
                                     <td>{{ item.site_username }}</td>
-                                    <td>{{ item.password }}</td>
+                                    <td>
+                                        <span class="hidden-password">••••••••</span>
+                                        <button type="button" class="toggle-password-btn" data-password="{{ item.password }}">👁️</button>
+                                    </td>
                                     <td>
                                         {% if item.password|length < 6 %}
                                             Weak
@@ -120,6 +123,7 @@
                         <div class="form-group">
                             <label for="site_password">Password</label>
                             <input type="password" name="site_password" id="site_password" required>
+                            <div id="strengthMeter"></div>
                         </div>
                         <button type="submit">Save Password</button>
                     </form>
@@ -131,5 +135,7 @@
             </div>
         </div>
     </div>
+
+    <script src="{{ url_for('static', filename='dashboard.js') }}"></script>
 </body>
 </html>
