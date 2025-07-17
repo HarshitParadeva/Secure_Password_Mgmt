@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SecurePass Manager</title>
+    <link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    <span>SecurePass Manager</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-item active">
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item">
+                    <span>Settings</span>
+                </div>
+                <div class="nav-item">
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name" id="userName">{{ username }}</p>
+                        <p class="user-email" id="userEmail">{{ username }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-wrapper">
+                <!-- Header -->
+                <div class="page-header">
+                    <h1>Welcome Back, {{ username.split('@')[0].capitalize() }}!</h1>
+                    <p>Your secure password management dashboard.</p>
+                </div>
+
+                <!-- My Passwords Section -->
+                <div class="passwords-section">
+                    <div class="section-header">
+                        <h2>My Passwords</h2>
+                    </div>
+                    <div class="passwords-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Website</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Strength</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="passwordsTableBody">
+                                {% for item in passwords %}
+                                <tr>
+                                    <td>{{ item.site_name }}</td>
+                                    <td>{{ item.site_username }}</td>
+                                    <td>{{ item.password }}</td>
+                                    <td>
+                                        {% if item.password|length < 6 %}
+                                            Weak
+                                        {% elif item.password|length < 10 %}
+                                            Medium
+                                        {% else %}
+                                            Strong
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <form action="{{ url_for('delete_password', entry_id=item.id) }}" method="post">
+                                            <button type="submit">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% else %}
+                                <tr>
+                                    <td colspan="5">No passwords saved yet.</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Add New Password Section -->
+                <div class="passwords-section">
+                    <div class="section-header">
+                        <h2>Add New Password</h2>
+                    </div>
+                    <form id="addPasswordForm" action="{{ url_for('save') }}" method="POST">
+                        <div class="form-group">
+                            <label for="site_name">Website</label>
+                            <input type="text" name="site_name" id="site_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="site_username">Username</label>
+                            <input type="text" name="site_username" id="site_username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="site_password">Password</label>
+                            <input type="password" name="site_password" id="site_password" required>
+                        </div>
+                        <button type="submit">Save Password</button>
+                    </form>
+                </div>
+
+                <div class="footer">
+                    © 2024 SecurePass Manager. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
