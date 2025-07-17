@@ -1,3 +1,5 @@
+dashboard.css
+
 * {
     margin: 0;
     padding: 0;
@@ -627,4 +629,35 @@ body {
         flex-direction: column;
         gap: 0.5rem;
     }
+
+    /* Password Strength Meter Styles */
+
+.password-strength-meter {
+    margin-top: 0.5rem;
+    height: 8px;
+    border-radius: 5px;
+    background-color: #e5e7eb;
+    overflow: hidden;
+}
+
+.password-strength-meter-fill {
+    height: 100%;
+    transition: width 0.3s ease-in-out;
+}
+
+.password-strength-weak {
+    background-color: #ef4444;
+    width: 33%;
+}
+
+.password-strength-medium {
+    background-color: #f59e0b;
+    width: 66%;
+}
+
+.password-strength-strong {
+    background-color: #10b981;
+    width: 100%;
+}
+
 }
