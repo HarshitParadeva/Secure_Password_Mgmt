@@ -5,7 +5,7 @@ from encryption import generate_key
 import os
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'  # Replace with a secure, environment-based secret in production
+app.secret_key = 'supersecretkey'  
 
 # ✅ Ensure encryption key exists
 if not os.path.exists("key.key"):
